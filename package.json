@@ -1,6 +1,6 @@
 {
-  "name": "@firestitch/fs-duration",
-  "description": "@firestitch/fs-duration",
+  "name": "@firestitch/duration",
+  "description": "@firestitch/duration",
   "version": "0.1.0",
   "repository": {
     "type": "git",
