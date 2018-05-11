@@ -133,7 +133,7 @@
     "node": ">=6.0.0"
   },
   "peerDependencies": {
-    "@firestitch/date": "^0.1.16",
+    "@firestitch/date": "^0.1.16"
   },
   "dependencies": {
     "moment-timezone": "^0.5.16"
