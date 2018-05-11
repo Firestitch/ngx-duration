@@ -1,30 +1,28 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FsComponentComponent } from './components/fs-component/fs-component.component';
-import { FsComponentService } from './services';
+import { FsDurationDirective } from './directives';
 
 @NgModule({
   imports: [
     CommonModule,
   ],
   exports: [
-    FsComponentComponent,
+    FsDurationDirective
   ],
   entryComponents: [
   ],
   declarations: [
-    FsComponentComponent,
+    FsDurationDirective
   ],
   providers: [
-    FsComponentService,
   ],
 })
 export class FsComponentModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FsComponentModule,
-      providers: [FsComponentService]
+      providers: []
     };
   }
 }

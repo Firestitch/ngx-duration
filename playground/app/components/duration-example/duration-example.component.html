@@ -1,0 +1,103 @@
+<div fxLayout="column">
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_seconds"
+      placeholder="Duration - seconds ({{durations.secondsOld || 0}})"
+      aria-label="Duration - seconds"
+      [(ngModel)]="durations.seconds"
+      fsDuration
+      [seconds]="true"
+      (fsChange)="changeSeconds($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_hour_minute"
+      placeholder="Duration - hours and minutes ({{durations.hourMinuteOld || 0}})"
+      aria-label="Duration - hours and minutes"
+      [(ngModel)]="durations.hourMinute"
+      fsDuration
+      [minutes]="true"
+      [hours]="true"
+      (fsChange)="changeHourMinute($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_day_hour"
+      placeholder="Duration - days and hours ({{durations.dayHourOld || 0}})"
+      aria-label="Duration - days and hours"
+      [(ngModel)]="durations.dayHour"
+      fsDuration
+      [hours]="true"
+      [days]="true"
+      (fsChange)="changeDayHour($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_month_day"
+      placeholder="Duration - months and days ({{durations.monthDayOld || 0}})"
+      aria-label="Duration - months and days"
+      [(ngModel)]="durations.monthDay"
+      fsDuration
+      [days]="true"
+      [months]="true"
+      (fsChange)="changeMonthDay($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_suffix_day_hour"
+      placeholder="Duration with suffix - days and hours ({{durations.suffixDayHourOld || 0}})"
+      aria-label="Duration with suffix - days and hours"
+      [(ngModel)]="durations.suffixDayHour"
+      fsDuration
+      [suffix]="true"
+      [hours]="true"
+      [days]="true"
+      (fsChange)="changeSuffixDayHour($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_suffix_day"
+      placeholder="Duration with suffix - day ({{durations.suffixDayOld || 0}})"
+      aria-label="Duration with suffix - day"
+      [(ngModel)]="durations.suffixDay"
+      fsDuration
+      [suffix]="true"
+      [days]="true"
+      (fsChange)="changeSuffixDay($event)">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      autocomplete="off"
+      name="duration_hour_minute"
+      placeholder="Duration full ({{durations.fullOld || 0}})"
+      aria-label="Duration full"
+      [(ngModel)]="durations.full"
+      fsDuration
+      [seconds]="true"
+      [minutes]="true"
+      [hours]="true"
+      [days]="true"
+      [months]="true"
+      [years]="true"
+      (fsChange)="changeFull($event)">
+  </mat-form-field>
+</div>
