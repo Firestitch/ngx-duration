@@ -2,11 +2,9 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_seconds"
-      placeholder="Duration - seconds ({{durations.secondsOld || 0}})"
-      aria-label="Duration - seconds"
-      [(ngModel)]="durations.seconds"
+      placeholder="Seconds ({{durations.secondsOld || 0}} minutes default)"
+       [(ngModel)]="durations.seconds"
       fsDuration
       [seconds]="true"
       (fsChange)="changeSeconds($event)">
@@ -15,11 +13,9 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_hour_minute"
-      placeholder="Duration - hours and minutes ({{durations.hourMinuteOld || 0}})"
-      aria-label="Duration - hours and minutes"
-      [(ngModel)]="durations.hourMinute"
+      placeholder="Hours and minutes ({{durations.hourMinuteOld || 0}} minutes default)"
+       [(ngModel)]="durations.hourMinute"
       fsDuration
       [minutes]="true"
       [hours]="true"
@@ -29,10 +25,8 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_day_hour"
-      placeholder="Duration - days and hours ({{durations.dayHourOld || 0}})"
-      aria-label="Duration - days and hours"
+      placeholder="Days and hours ({{durations.dayHourOld || 0}} minutes default)"
       [(ngModel)]="durations.dayHour"
       fsDuration
       [hours]="true"
@@ -43,10 +37,8 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_month_day"
-      placeholder="Duration - months and days ({{durations.monthDayOld || 0}})"
-      aria-label="Duration - months and days"
+      placeholder="Months and days ({{durations.monthDayOld || 0}} minutes default)"
       [(ngModel)]="durations.monthDay"
       fsDuration
       [days]="true"
@@ -57,10 +49,8 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_suffix_day_hour"
-      placeholder="Duration with suffix - days and hours ({{durations.suffixDayHourOld || 0}})"
-      aria-label="Duration with suffix - days and hours"
+      placeholder="Days and hours with suffix ({{durations.suffixDayHourOld || 0}} minutes default)"
       [(ngModel)]="durations.suffixDayHour"
       fsDuration
       [suffix]="true"
@@ -72,10 +62,8 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_suffix_day"
-      placeholder="Duration with suffix - day ({{durations.suffixDayOld || 0}})"
-      aria-label="Duration with suffix - day"
+      placeholder="Days with suffix ({{durations.suffixDayOld || 0}} minutes default)"
       [(ngModel)]="durations.suffixDay"
       fsDuration
       [suffix]="true"
@@ -86,10 +74,8 @@
   <mat-form-field>
     <input
       matInput
-      autocomplete="off"
       name="duration_hour_minute"
-      placeholder="Duration full ({{durations.fullOld || 0}})"
-      aria-label="Duration full"
+      placeholder="Full ({{durations.fullOld || 0}} minutes default)"
       [(ngModel)]="durations.full"
       fsDuration
       [seconds]="true"
