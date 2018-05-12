@@ -3,7 +3,7 @@
     <input
       matInput
       name="duration_seconds"
-      placeholder="Seconds ({{durations.secondsOld || 0}} minutes default)"
+      placeholder="Seconds ({{durations.secondsOld|number}} minutes)"
        [(ngModel)]="durations.seconds"
       fsDuration
       [seconds]="true"
@@ -14,7 +14,7 @@
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Hours and minutes ({{durations.hourMinuteOld || 0}} minutes default)"
+      placeholder="Hours and minutes ({{durations.hourMinuteOld|number}} minutes)"
        [(ngModel)]="durations.hourMinute"
       fsDuration
       [minutes]="true"
@@ -26,7 +26,7 @@
     <input
       matInput
       name="duration_day_hour"
-      placeholder="Days and hours ({{durations.dayHourOld || 0}} minutes default)"
+      placeholder="Days and hours ({{durations.dayHourOld|number}} minutes)"
       [(ngModel)]="durations.dayHour"
       fsDuration
       [hours]="true"
@@ -38,7 +38,7 @@
     <input
       matInput
       name="duration_month_day"
-      placeholder="Months and days ({{durations.monthDayOld || 0}} minutes default)"
+      placeholder="Months and days ({{durations.monthDayOld|number}} minutes)"
       [(ngModel)]="durations.monthDay"
       fsDuration
       [days]="true"
@@ -50,7 +50,7 @@
     <input
       matInput
       name="duration_suffix_day_hour"
-      placeholder="Days and hours with suffix ({{durations.suffixDayHourOld || 0}} minutes default)"
+      placeholder="Days and hours with suffix ({{durations.suffixDayHourOld|number}} minutes)"
       [(ngModel)]="durations.suffixDayHour"
       fsDuration
       [suffix]="true"
@@ -63,7 +63,7 @@
     <input
       matInput
       name="duration_suffix_day"
-      placeholder="Days with suffix ({{durations.suffixDayOld || 0}} minutes default)"
+      placeholder="Days with suffix ({{durations.suffixDayOld|number}} minutes)"
       [(ngModel)]="durations.suffixDay"
       fsDuration
       [suffix]="true"
@@ -75,7 +75,7 @@
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Full ({{durations.fullOld || 0}} minutes default)"
+      placeholder="Full ({{durations.fullOld|number}} minutes)"
       [(ngModel)]="durations.full"
       fsDuration
       [seconds]="true"
