@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FsDurationDirective } from './directives';
+
 
 @NgModule({
   imports: [
@@ -18,10 +18,10 @@ import { FsDurationDirective } from './directives';
   providers: [
   ],
 })
-export class FsComponentModule {
+export class FsDurationModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: FsComponentModule,
+      ngModule: FsDurationModule,
       providers: []
     };
   }

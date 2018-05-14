@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FsExampleModule } from '@firestitch/example';
 import { AppMaterialModule } from './app/material.module';
-import { FsComponentModule } from '../src';
+import { FsDurationModule } from '../src';
 
 import { AppComponent } from './app/app.component';
 import { DurationExampleComponent } from './app/components/duration-example/duration-example.component';
@@ -20,7 +20,7 @@ import { DurationExampleComponent } from './app/components/duration-example/dura
     FormsModule,
     FsExampleModule,
     AppMaterialModule,
-    FsComponentModule,
+    FsDurationModule,
   ],
   entryComponents: [
   ],

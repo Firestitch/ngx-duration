@@ -1,1 +1,1 @@
-export * from './fs-component.module';
+export * from './fs-duration.module';
