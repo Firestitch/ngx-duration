@@ -22,8 +22,8 @@ export class FsDurationDirective implements OnInit, OnDestroy {
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
   @Input() suffix = false;
   @Input() seconds = false;
-  @Input() minutes = false;
-  @Input() hours = false;
+  @Input() minutes = true;
+  @Input() hours = true;
   @Input() days = false;
   @Input() months = false;
   @Input() years = false;

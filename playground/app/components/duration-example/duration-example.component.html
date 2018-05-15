@@ -3,79 +3,71 @@
     <input
       matInput
       name="duration_seconds"
-      placeholder="Seconds ({{durations.secondsOld|number}} minutes)"
-       [(ngModel)]="durations.seconds"
+      placeholder="Seconds ({{durations.seconds|number}} minutes)"
+      [(ngModel)]="durations.seconds"
       fsDuration
-      [seconds]="true"
-      (fsChange)="changeSeconds($event)">
+      [seconds]="true">
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Hours and minutes ({{durations.hourMinuteOld|number}} minutes)"
-       [(ngModel)]="durations.hourMinute"
-      fsDuration
-      [minutes]="true"
-      [hours]="true"
-      (fsChange)="changeHourMinute($event)">
+      placeholder="Hours and minutes ({{durations.hourMinute|number}} minutes)"
+      [(ngModel)]="durations.hourMinute"
+      fsDuration>
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_day_hour"
-      placeholder="Days and hours ({{durations.dayHourOld|number}} minutes)"
+      placeholder="Days and hours ({{durations.dayHour|number}} minutes)"
       [(ngModel)]="durations.dayHour"
       fsDuration
       [hours]="true"
-      [days]="true"
-      (fsChange)="changeDayHour($event)">
+      [days]="true">
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_month_day"
-      placeholder="Months and days ({{durations.monthDayOld|number}} minutes)"
+      placeholder="Months and days ({{durations.monthDay|number}} minutes)"
       [(ngModel)]="durations.monthDay"
       fsDuration
       [days]="true"
-      [months]="true"
-      (fsChange)="changeMonthDay($event)">
+      [months]="true">
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_suffix_day_hour"
-      placeholder="Days and hours with suffix ({{durations.suffixDayHourOld|number}} minutes)"
+      placeholder="Days and hours with suffix ({{durations.suffixDayHour|number}} minutes)"
       [(ngModel)]="durations.suffixDayHour"
       fsDuration
       [suffix]="true"
       [hours]="true"
-      [days]="true"
-      (fsChange)="changeSuffixDayHour($event)">
+      [days]="true">
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_suffix_day"
-      placeholder="Days with suffix ({{durations.suffixDayOld|number}} minutes)"
+      placeholder="Days with suffix ({{durations.suffixDay|number}} minutes)"
       [(ngModel)]="durations.suffixDay"
       fsDuration
       [suffix]="true"
-      [days]="true"
-      (fsChange)="changeSuffixDay($event)">
+      [days]="true">
   </mat-form-field>
 
   <mat-form-field>
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Full ({{durations.fullOld|number}} minutes)"
+      placeholder="Full ({{durations.full|number}} minutes)"
       [(ngModel)]="durations.full"
       fsDuration
       [seconds]="true"
@@ -83,7 +75,6 @@
       [hours]="true"
       [days]="true"
       [months]="true"
-      [years]="true"
-      (fsChange)="changeFull($event)">
+      [years]="true">
   </mat-form-field>
 </div>
