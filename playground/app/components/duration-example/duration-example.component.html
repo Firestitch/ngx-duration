@@ -3,8 +3,8 @@
     <input
       matInput
       name="duration_seconds"
-      placeholder="Seconds ({{durations.seconds|number}} minutes)"
-      [(ngModel)]="durations.seconds"
+      placeholder="Seconds ({{ durations.seconds }} minutes)"
+      [(data)]="durations.seconds"
       fsDuration
       [seconds]="true">
   </mat-form-field>
@@ -13,8 +13,8 @@
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Hours and minutes ({{durations.hourMinute|number}} minutes)"
-      [(ngModel)]="durations.hourMinute"
+      placeholder="Hours and minutes ({{ durations.hourMinute }} minutes)"
+      [(data)]="durations.hourMinute"
       fsDuration>
   </mat-form-field>
 
@@ -22,8 +22,8 @@
     <input
       matInput
       name="duration_day_hour"
-      placeholder="Days and hours ({{durations.dayHour|number}} minutes)"
-      [(ngModel)]="durations.dayHour"
+      placeholder="Days and hours ({{ durations.dayHour }} minutes)"
+      [(data)]="durations.dayHour"
       fsDuration
       [hours]="true"
       [days]="true">
@@ -33,8 +33,8 @@
     <input
       matInput
       name="duration_month_day"
-      placeholder="Months and days ({{durations.monthDay|number}} minutes)"
-      [(ngModel)]="durations.monthDay"
+      placeholder="Months and days ({{ durations.monthDay }} minutes)"
+      [(data)]="durations.monthDay"
       fsDuration
       [days]="true"
       [months]="true">
@@ -44,8 +44,8 @@
     <input
       matInput
       name="duration_suffix_day_hour"
-      placeholder="Days and hours with suffix ({{durations.suffixDayHour|number}} minutes)"
-      [(ngModel)]="durations.suffixDayHour"
+      placeholder="Days and hours with suffix ({{ durations.suffixDayHour }} minutes)"
+      [(data)]="durations.suffixDayHour"
       fsDuration
       [suffix]="true"
       [hours]="true"
@@ -56,8 +56,8 @@
     <input
       matInput
       name="duration_suffix_day"
-      placeholder="Days with suffix ({{durations.suffixDay|number}} minutes)"
-      [(ngModel)]="durations.suffixDay"
+      placeholder="Days with suffix ({{ durations.suffixDay }} minutes)"
+      [(data)]="durations.suffixDay"
       fsDuration
       [suffix]="true"
       [days]="true">
@@ -67,8 +67,8 @@
     <input
       matInput
       name="duration_hour_minute"
-      placeholder="Full ({{durations.full|number}} minutes)"
-      [(ngModel)]="durations.full"
+      placeholder="Full ({{ durations.full }} minutes)"
+      [(data)]="durations.full"
       fsDuration
       [seconds]="true"
       [minutes]="true"
