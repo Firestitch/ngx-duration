@@ -1,36 +1,21 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
-
-import { duration, parse } from '@firestitch/date'
+import { Directive, Input, OnInit, Output, AfterContentInit } from '@angular/core';
+import { NgModel } from '@angular/forms';
+import { duration } from '@firestitch/date';
+import { parse } from '../helpers';
 
 
 @Directive({
-  selector: '[fsDuration]'
-})
-export class FsDurationDirective implements OnInit, OnDestroy {
-
-  private _model: number;
-
-  @Input()
-  get data() {
-    return this._model;
-  };
-  @Output() dataChange = new EventEmitter();
-
-  set data(val: number) {
-    this._model = val;
-    this.dataChange.emit(this._model);
+  providers: [NgModel],
+  selector: '[fsDuration]',
+  host: {
+    '(blur)' : 'blur()',
+    '(focus)' : 'focus()',
+    '(keyup)' : 'keyup($event)'
   }
+})
+export class FsDurationDirective implements OnInit, AfterContentInit {
 
-  // Options
+  @Input() ngModel: any;
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
   @Input() suffix = false;
   @Input() seconds = false;
@@ -40,84 +25,73 @@ export class FsDurationDirective implements OnInit, OnDestroy {
   @Input() months = false;
   @Input() years = false;
 
-  constructor(private _el: ElementRef) {}
+  focused = false;
+
+  constructor(private model: NgModel) {}
+
+  public focus() {
+    this.focused = true;
+  }
+
+  public blur() {
+    this.focused = false;
+    this.changeValue();
+  }
+
+  public keyup(event: KeyboardEvent) {
+    if (event.keyCode === 13) {
+      this.changeValue();
+    }
+  }
 
   public ngOnInit() {
     if (!this.seconds && !this.minutes && !this.hours && !this.days && !this.months && !this.years) {
       this.minutes = true;
       this.hours = true;
     }
-
-    this._el.nativeElement.value = this.data;
-
-    this.changeValue();
   }
 
-  public ngOnDestroy() {}
-
-  @HostListener('keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      this.changeValue();
-    }
+  public ngAfterContentInit() {
+    this.model.valueChanges.subscribe(value => {
+      if (!this.focused) {
+        this.changeValue();
+      }
+    });
   }
 
-  @HostListener('blur', ['$event'])
-  blurEvent() {
-    this.changeValue();
+  public formatInput() {
+    const dur = duration(Number(this.ngModel), {
+      unit: this.unit,
+      suffix: this.suffix,
+      seconds: this.seconds,
+      minutes: this.minutes,
+      hours: this.hours,
+      days: this.days,
+      months: this.months,
+      years: this.years
+    });
+    this.model.valueAccessor.writeValue(dur);
   }
 
   private changeValue() {
-    if (!this._el.nativeElement.value || this._el.nativeElement.value == 0) {
-      this.data = 0;
-      return;
-    }
 
-    let value = this._el.nativeElement.value;
+    try {
 
-    if (Number(value)) {
-      value = Number(value);
-      this.data = Math.round(value);
-      this._el.nativeElement.value = duration(this.data, {
-        unit: this.unit,
-        suffix: this.suffix,
-        seconds: this.seconds,
-        minutes: this.minutes,
-        hours: this.hours,
-        days: this.days,
-        months: this.months,
-        years: this.years
-      });
-    } else {
-      let parsedResult;
-      parse(value).subscribe((result: any) => {
-        parsedResult = result;
-      });
-
-      if (parsedResult && parsedResult.error || !parsedResult.time) {
-        this._el.nativeElement.value = 'Incorrect Input Value';
-        this.data = 0;
-      } else {
-        this._el.nativeElement.value = duration(parsedResult.time, {
-          unit: 'seconds',
-          suffix: this.suffix,
-          seconds: this.seconds,
-          minutes: this.minutes,
-          hours: this.hours,
-          days: this.days,
-          months: this.months,
-          years: this.years
-        });
-
-        let time = parsedResult.time;
-
+      if (!Number(this.ngModel)) {
+        this.ngModel = parse(this.ngModel);
         if (this.unit === 'minutes') {
-          time = time / 60;
+          this.ngModel = this.ngModel / 60;
         } else if (this.unit === 'hours') {
-          time = time / 60 / 60;
+          this.ngModel = this.ngModel / 60 / 60;
         }
-        this.data = Math.round(time);
       }
+
+      this.ngModel = Math.round(this.ngModel);
+
+    } catch (e) {
+      this.ngModel = 0;
     }
+
+    this.formatInput();
   }
 }
