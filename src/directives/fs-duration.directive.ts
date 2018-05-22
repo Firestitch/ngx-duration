@@ -76,7 +76,6 @@ export class FsDurationDirective implements OnInit, AfterContentInit {
   private changeValue() {
 
     try {
-
       if (!Number(this.ngModel)) {
         this.ngModel = parse(this.ngModel);
         if (this.unit === 'minutes') {
@@ -92,6 +91,7 @@ export class FsDurationDirective implements OnInit, AfterContentInit {
       this.ngModel = 0;
     }
 
+    this.model.viewToModelUpdate(this.ngModel);
     this.formatInput();
   }
 }
