@@ -1,0 +1,36 @@
+<div fxLayout="column">
+  <mat-form-field>
+    <input
+      matInput
+      name="duration"
+      placeholder="{{ model }} {{ units[unit] }}"
+      [(ngModel)]="model"
+      fsDuration
+      [seconds]="seconds"
+      [minutes]="minutes"
+      [hours]="hours"
+      [days]="days"
+      [months]="months"
+      [years]="years"
+      [unit]="unit">
+  </mat-form-field>
+
+  <fieldset>
+    <legend>Format</legend>
+    <mat-checkbox [(ngModel)]="seconds">Seconds</mat-checkbox>
+    <mat-checkbox [(ngModel)]="minutes">Minutes</mat-checkbox>
+    <mat-checkbox [(ngModel)]="hours">Hours</mat-checkbox>
+    <mat-checkbox [(ngModel)]="days">Days</mat-checkbox>
+    <mat-checkbox [(ngModel)]="months">Months</mat-checkbox>
+    <mat-checkbox [(ngModel)]="years">Years</mat-checkbox>
+  </fieldset>
+
+  <fieldset>
+    <legend>Unit</legend>
+    <mat-radio-group [(ngModel)]="unit">
+      <mat-radio-button value="seconds">Seconds</mat-radio-button>
+      <mat-radio-button value="minutes">Minutes</mat-radio-button>
+      <mat-radio-button value="hours">Hours</mat-radio-button>
+    </mat-radio-group>
+  </fieldset>
+</div>

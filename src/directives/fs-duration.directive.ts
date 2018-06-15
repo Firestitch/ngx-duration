@@ -1,6 +1,8 @@
-import { Directive, Input, OnInit, Output, AfterContentInit } from '@angular/core';
+import { Directive, Input, OnInit, Output, OnChanges, AfterContentInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
+
 import { duration } from '@firestitch/date';
+
 import { parse } from '../helpers';
 
 
@@ -13,7 +15,7 @@ import { parse } from '../helpers';
     '(keyup)' : 'keyup($event)'
   }
 })
-export class FsDurationDirective implements OnInit, AfterContentInit {
+export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges {
 
   @Input() ngModel: any;
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
@@ -48,6 +50,12 @@ export class FsDurationDirective implements OnInit, AfterContentInit {
     if (!this.seconds && !this.minutes && !this.hours && !this.days && !this.months && !this.years) {
       this.minutes = true;
       this.hours = true;
+    }
+  }
+
+  ngOnChanges(changes) {
+    if (changes && !changes.ngModel) {
+      this.changeValue();
     }
   }
 

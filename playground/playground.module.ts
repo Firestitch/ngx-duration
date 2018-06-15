@@ -11,6 +11,8 @@ import { FsDurationModule } from '../src';
 
 import { AppComponent } from './app/app.component';
 import { DurationExampleComponent } from './app/components/duration-example/duration-example.component';
+import { ConfigurableDurationExampleComponent } from './app/components/configurable-duration-example/configurable-duration-example.component';
+
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -26,7 +28,8 @@ import { DurationExampleComponent } from './app/components/duration-example/dura
   ],
   declarations: [
     AppComponent,
-    DurationExampleComponent
+    DurationExampleComponent,
+    ConfigurableDurationExampleComponent
   ],
   providers: [
   ],
