@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
 })
 export class ConfigurableDurationExampleComponent {
 
-  public unit = 'hours';
+  public unit = 'minutes';
+  public inputUnit = 'hours';
   public suffix = false;
   public seconds = false;
   public minutes = true;

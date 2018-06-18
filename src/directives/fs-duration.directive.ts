@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, Output, OnChanges, AfterContentInit } from '@angular/core';
+import { Directive, Input, Output, ElementRef, OnInit, OnChanges, AfterContentInit } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
@@ -18,7 +18,10 @@ import { parse } from '../helpers';
 export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges {
 
   @Input() ngModel: any;
+
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
+  @Input() inputUnit: 'seconds' | 'minutes' | 'hours' = 'hours';
+
   @Input() suffix = false;
   @Input() seconds = false;
   @Input() minutes = false;
@@ -29,7 +32,7 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
 
   focused = false;
 
-  constructor(private model: NgModel) {}
+  constructor(private model: NgModel, private el: ElementRef) {}
 
   public focus() {
     this.focused = true;
@@ -83,6 +86,12 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
 
   private changeValue() {
 
+    this.ngModel = this.ngModel || 0;
+
+    if (this.inputUnit && !!Number(this.el.nativeElement.value)) {
+      this.ngModel += this.inputUnit.charAt(0);
+    }
+
     try {
       if (!Number(this.ngModel)) {
         this.ngModel = parse(this.ngModel);
@@ -95,9 +104,7 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
 
       this.ngModel = Math.round(this.ngModel);
 
-    } catch (e) {
-      this.ngModel = 0;
-    }
+    } catch (e) { }
 
     this.model.viewToModelUpdate(this.ngModel);
     this.formatInput();

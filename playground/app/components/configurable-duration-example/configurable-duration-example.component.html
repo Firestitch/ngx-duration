@@ -12,7 +12,8 @@
       [days]="days"
       [months]="months"
       [years]="years"
-      [unit]="unit">
+      [unit]="unit"
+      [inputUnit]="inputUnit">
   </mat-form-field>
 
   <fieldset>
@@ -28,6 +29,15 @@
   <fieldset>
     <legend>Unit</legend>
     <mat-radio-group [(ngModel)]="unit">
+      <mat-radio-button value="seconds">Seconds</mat-radio-button>
+      <mat-radio-button value="minutes">Minutes</mat-radio-button>
+      <mat-radio-button value="hours">Hours</mat-radio-button>
+    </mat-radio-group>
+  </fieldset>
+
+  <fieldset>
+    <legend>Input Unit</legend>
+    <mat-radio-group [(ngModel)]="inputUnit">
       <mat-radio-button value="seconds">Seconds</mat-radio-button>
       <mat-radio-button value="minutes">Minutes</mat-radio-button>
       <mat-radio-button value="hours">Hours</mat-radio-button>
