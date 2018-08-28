@@ -36,6 +36,10 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
 
   public focus() {
     this.focused = true;
+
+    if (Number(this.ngModel) === 0) {
+      this.model.valueAccessor.writeValue('');
+    }
   }
 
   public blur() {
@@ -85,7 +89,6 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
   }
 
   private changeValue() {
-
     this.ngModel = this.ngModel || 0;
 
     if (this.inputUnit && !!Number(this.el.nativeElement.value)) {

@@ -16,7 +16,7 @@ export class ConfigurableDurationExampleComponent {
   public months = false;
   public years = false;
 
-  public model = 0;
+  public model = '';
 
   public units = {
     seconds: 'Seconds',
