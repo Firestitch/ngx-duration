@@ -1,5 +1,5 @@
-import { Directive, Input, ElementRef, OnInit, OnChanges, AfterContentInit } from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { Directive, Input, ElementRef, OnInit, OnChanges, AfterViewInit, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
 
@@ -7,21 +7,20 @@ import { parse } from '../helpers/parse';
 
 
 @Directive({
-  providers: [NgModel],
   selector: '[fsDuration]',
   host: {
     '(blur)' : 'blur()',
-    '(focus)' : 'focus()',
-    '(keyup)' : 'keyup($event)'
-  }
+  },
+  providers: [ {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => FsDurationDirective),
+    multi: true
+  }]
 })
-export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges {
-
-  @Input() ngModel: any;
+export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor  {
 
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
   @Input() inputUnit: 'seconds' | 'minutes' | 'hours' = 'hours';
-
   @Input() suffix = false;
   @Input() seconds = false;
   @Input() minutes = false;
@@ -30,27 +29,24 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
   @Input() months = false;
   @Input() years = false;
 
-  focused = false;
+  public _onTouched = () => {};
+  public _onChange = (value: any) => {};
 
-  constructor(private model: NgModel, private el: ElementRef) {}
+  private _model;
 
-  public focus() {
-    this.focused = true;
+  constructor(private _el: ElementRef) {}
 
-    if (Number(this.ngModel) === 0) {
-      this.model.valueAccessor.writeValue('');
-    }
+  public registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn
+  }
+
+  public registerOnTouched(fn: () => any): void {
+    this._onTouched = fn
   }
 
   public blur() {
-    this.focused = false;
-    this.changeValue();
-  }
-
-  public keyup(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      this.changeValue();
-    }
+    this._parseInput();
+    this.format();
   }
 
   public ngOnInit() {
@@ -60,22 +56,23 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
     }
   }
 
-  ngOnChanges(changes) {
-    if (changes && !changes.ngModel) {
-      this.changeValue();
+  public writeValue(value: any) {
+    this._model = value;
+    this.format();
+  }
+
+  public ngAfterViewInit() {
+    this.format();
+  }
+
+  public format() {
+    let dur = '';
+
+    if (this._model === null || this._model === undefined) {
+      return;
     }
-  }
 
-  public ngAfterContentInit() {
-    this.model.valueChanges.subscribe(value => {
-      if (!this.focused) {
-        this.changeValue();
-      }
-    });
-  }
-
-  public formatInput() {
-    const dur = duration(Number(this.ngModel), {
+    dur = duration(Number(this._model), {
       unit: this.unit,
       suffix: this.suffix,
       seconds: this.seconds,
@@ -85,31 +82,42 @@ export class FsDurationDirective implements OnInit, AfterContentInit, OnChanges 
       months: this.months,
       years: this.years
     });
-    this.model.valueAccessor.writeValue(dur);
+
+    this._el.nativeElement.value = dur;
   }
 
-  private changeValue() {
-    this.ngModel = this.ngModel || 0;
+  private _parseInput() {
 
-    if (this.inputUnit && !!Number(this.el.nativeElement.value)) {
-      this.ngModel += this.inputUnit.charAt(0);
+    let model = this._el.nativeElement.value;
+
+    if (!model.length) {
+      return this._change(null);
+    }
+
+    if (this.inputUnit && !!Number(model)) {
+      model += this.inputUnit.charAt(0);
     }
 
     try {
-      if (!Number(this.ngModel)) {
-        this.ngModel = parse(this.ngModel);
+
+      if (!Number(model)) {
+        model = parse(model);
         if (this.unit === 'minutes') {
-          this.ngModel = this.ngModel / 60;
+          model = model / 60;
         } else if (this.unit === 'hours') {
-          this.ngModel = this.ngModel / 60 / 60;
+          model = model / 60 / 60;
         }
       }
 
-      this.ngModel = Math.round(this.ngModel);
+      this._change(Math.round(model));
 
     } catch (e) { }
 
-    this.model.viewToModelUpdate(this.ngModel);
-    this.formatInput();
+    this.format();
+  }
+
+  private _change(value) {
+    this._model = value;
+    this._onChange(value);
   }
 }

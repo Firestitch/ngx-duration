@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { FsDurationDirective } from '@firestitch/duration';
 
 @Component({
   selector: 'configurable-duration-example',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class ConfigurableDurationExampleComponent {
 
-  public unit = 'minutes';
-  public inputUnit = 'hours';
+  @ViewChild(FsDurationDirective, { static: false }) duration: FsDurationDirective;
+
+  public unit: any = 'minutes';
+  public inputUnit: any = 'hours';
   public suffix = false;
   public seconds = false;
   public minutes = true;
@@ -16,7 +19,7 @@ export class ConfigurableDurationExampleComponent {
   public months = false;
   public years = false;
 
-  public model = '';
+  public model;
 
   public units = {
     seconds: 'Seconds',
@@ -26,7 +29,17 @@ export class ConfigurableDurationExampleComponent {
 
   constructor() {}
 
-  unitChange(value) {
-    this.unit = value;
+  public unitChange() {
+    this.duration.unit = this.unit;
+    this.duration.format();
+  }
+
+  public inputUnitChange() {
+    this.duration.inputUnit = this.inputUnit;
+    this.duration.format();
+  }
+
+  public change() {
+    this.duration.format();
   }
 }

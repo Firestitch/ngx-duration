@@ -18,17 +18,17 @@
 
   <fieldset>
     <legend>Format</legend>
-    <mat-checkbox [(ngModel)]="seconds">Seconds</mat-checkbox>
-    <mat-checkbox [(ngModel)]="minutes">Minutes</mat-checkbox>
-    <mat-checkbox [(ngModel)]="hours">Hours</mat-checkbox>
-    <mat-checkbox [(ngModel)]="days">Days</mat-checkbox>
-    <mat-checkbox [(ngModel)]="months">Months</mat-checkbox>
-    <mat-checkbox [(ngModel)]="years">Years</mat-checkbox>
+    <mat-checkbox [(ngModel)]="seconds" (ngModelChange)="change()">Seconds</mat-checkbox>
+    <mat-checkbox [(ngModel)]="minutes" (ngModelChange)="change()">Minutes</mat-checkbox>
+    <mat-checkbox [(ngModel)]="hours" (ngModelChange)="change()">Hours</mat-checkbox>
+    <mat-checkbox [(ngModel)]="days" (ngModelChange)="change()">Days</mat-checkbox>
+    <mat-checkbox [(ngModel)]="months" (ngModelChange)="change()">Months</mat-checkbox>
+    <mat-checkbox [(ngModel)]="years" (ngModelChange)="change()">Years</mat-checkbox>
   </fieldset>
 
   <fieldset>
     <legend>Unit</legend>
-    <mat-radio-group [(ngModel)]="unit">
+    <mat-radio-group [(ngModel)]="unit" (ngModelChange)="unitChange()">
       <mat-radio-button value="seconds">Seconds</mat-radio-button>
       <mat-radio-button value="minutes">Minutes</mat-radio-button>
       <mat-radio-button value="hours">Hours</mat-radio-button>
@@ -37,7 +37,7 @@
 
   <fieldset>
     <legend>Input Unit</legend>
-    <mat-radio-group [(ngModel)]="inputUnit">
+    <mat-radio-group [(ngModel)]="inputUnit" (ngModelChange)="inputUnitChange()">
       <mat-radio-button value="seconds">Seconds</mat-radio-button>
       <mat-radio-button value="minutes">Minutes</mat-radio-button>
       <mat-radio-button value="hours">Hours</mat-radio-button>
