@@ -66,24 +66,22 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   }
 
   public format() {
-    let dur = '';
+    let value = '';
 
-    if (this._model === null || this._model === undefined) {
-      return;
+    if (this._model !== null && this._model !== undefined) {
+      value = duration(Number(this._model), {
+        unit: this.unit,
+        suffix: this.suffix,
+        seconds: this.seconds,
+        minutes: this.minutes,
+        hours: this.hours,
+        days: this.days,
+        months: this.months,
+        years: this.years
+      });
     }
 
-    dur = duration(Number(this._model), {
-      unit: this.unit,
-      suffix: this.suffix,
-      seconds: this.seconds,
-      minutes: this.minutes,
-      hours: this.hours,
-      days: this.days,
-      months: this.months,
-      years: this.years
-    });
-
-    this._el.nativeElement.value = dur;
+    this._el.nativeElement.value = value;
   }
 
   private _parseInput() {
