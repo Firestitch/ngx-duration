@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { FsDurationDirective } from '@firestitch/duration';
+
+import { of } from 'rxjs';
+
 
 @Component({
   selector: 'configurable-duration-example',
@@ -7,7 +11,7 @@ import { FsDurationDirective } from '@firestitch/duration';
 })
 export class ConfigurableDurationExampleComponent {
 
-  @ViewChild(FsDurationDirective, { static: false }) duration: FsDurationDirective;
+  @ViewChild(FsDurationDirective) duration: FsDurationDirective;
 
   public unit: any = 'minutes';
   public inputUnit: any = 'hours';
@@ -42,4 +46,10 @@ export class ConfigurableDurationExampleComponent {
   public change() {
     this.duration.format();
   }
+
+  public save = () => {
+    console.log('Submitted');
+    return of(true);
+  }
+
 }

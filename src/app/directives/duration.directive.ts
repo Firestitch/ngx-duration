@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, OnInit, OnChanges, AfterViewInit, forwardRef } from '@angular/core';
+import { Directive, Input, HostListener, ElementRef, OnInit, OnChanges, AfterViewInit, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
@@ -47,6 +47,13 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   public blur() {
     this._parseInput();
     this.format();
+  }
+
+  @HostListener('keydown', ['$event'])
+  public keydown(event: KeyboardEvent) {
+    if (['Enter', 'Backspace'].indexOf(event.code) !== -1) {
+      this.blur();
+    }
   }
 
   public ngOnInit() {
