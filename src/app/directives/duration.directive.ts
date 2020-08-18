@@ -100,7 +100,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
     }
 
     if (this.inputUnit && !!Number(model)) {
-      model += this.inputUnit.charAt(0);
+      model = '0' + model + this.inputUnit.charAt(0);
     }
 
     try {
@@ -116,7 +116,9 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
       this._change(Math.round(model));
 
-    } catch (e) { }
+    } catch (e) {
+      debugger;
+    }
 
     this.format();
   }
