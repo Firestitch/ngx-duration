@@ -35,16 +35,14 @@ export class ConfigurableDurationExampleComponent {
 
   public unitChange() {
     this.duration.unit = this.unit;
-    this.duration.format();
   }
 
   public inputUnitChange() {
     this.duration.inputUnit = this.inputUnit;
-    this.duration.format();
   }
 
   public change() {
-    this.duration.format();
+
   }
 
   public save = () => {

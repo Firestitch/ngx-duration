@@ -1,23 +1,19 @@
-import { Directive, Input, HostListener, ElementRef, OnInit, OnChanges, AfterViewInit, forwardRef } from '@angular/core';
+import { Directive, Input, HostListener, ElementRef, OnInit, AfterViewInit, forwardRef, OnChanges, SimpleChange } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
 
 import { parse } from '../helpers/parse';
 
-
 @Directive({
   selector: '[fsDuration]',
-  host: {
-    '(blur)' : 'blur()',
-  },
   providers: [ {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsDurationDirective),
     multi: true
   }]
 })
-export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor  {
+export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges  {
 
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
   @Input() inputUnit: 'seconds' | 'minutes' | 'hours' = 'hours';
@@ -28,6 +24,11 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   @Input() days = false;
   @Input() months = false;
   @Input() years = false;
+
+  @HostListener('blur')
+  public blur() {
+    this._parseInput();
+  }
 
   public _onTouched = () => {};
   public _onChange = (value: any) => {};
@@ -44,15 +45,20 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
     this._onTouched = fn
   }
 
-  public blur() {
-    this._parseInput();
-    this.format();
-  }
-
   @HostListener('keydown', ['$event'])
   public keydown(event: KeyboardEvent) {
-    if (['Enter', 'Backspace'].indexOf(event.code) !== -1) {
-      this.blur();
+    if (['Enter'].indexOf(event.code) !== -1) {
+      this._parseInput();
+    }
+  }
+
+  public ngOnChanges(changes): void {
+    const changed = Object.keys(changes).map(key => changes[key]).some((change: SimpleChange) => {
+      return !change.firstChange;
+    });
+
+    if (changed) {
+      this._format();
     }
   }
 
@@ -65,14 +71,14 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   public writeValue(value: any) {
     this._model = value;
-    this.format();
+    this._format();
   }
 
   public ngAfterViewInit() {
-    this.format();
+    this._format();
   }
 
-  public format() {
+  private _format() {
     let value = '';
 
     if (this._model !== null && this._model !== undefined) {
@@ -116,11 +122,9 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
       this._change(Math.round(model));
 
-    } catch (e) {
-      debugger;
-    }
+    } catch (e) {}
 
-    this.format();
+    this._format();
   }
 
   private _change(value) {
