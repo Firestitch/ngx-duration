@@ -10,7 +10,7 @@ export function parse(value: string) {
 
   value.split(' ').forEach((chunk) => {
 
-    const matches = chunk.match(/^(\d+\.?\d*)([YMdhms])$/);
+    const matches = chunk.match(/^([\d+]?\.?\d*)([YMdhms])$/);
 
     if (!matches) {
       throw 'Invalid duration format';
