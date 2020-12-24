@@ -1,7 +1,9 @@
-import { Directive, Input, HostListener, ElementRef, OnInit, AfterViewInit, forwardRef, OnChanges, SimpleChange } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit, AfterViewInit, forwardRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
+import { fromEvent, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { parse } from '../helpers/parse';
 
@@ -13,7 +15,7 @@ import { parse } from '../helpers/parse';
     multi: true
   }]
 })
-export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges  {
+export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
 
   @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
   @Input() inputUnit: 'seconds' | 'minutes' | 'hours' = 'hours';
@@ -25,10 +27,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   @Input() months = false;
   @Input() years = false;
 
-  @HostListener('blur')
-  public blur() {
-    this._parseInput();
-  }
+  private _destroy$ = new Subject();
 
   public _onTouched = () => {};
   public _onChange = (value: any) => {};
@@ -43,13 +42,6 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   public registerOnTouched(fn: () => any): void {
     this._onTouched = fn
-  }
-
-  @HostListener('keydown', ['$event'])
-  public keydown(event: KeyboardEvent) {
-    if (['Enter'].indexOf(event.code) !== -1) {
-      this._parseInput();
-    }
   }
 
   public ngOnChanges(changes): void {
@@ -67,6 +59,34 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
       this.minutes = true;
       this.hours = true;
     }
+
+    fromEvent(this._el.nativeElement, 'keydown')
+      .pipe(
+        takeUntil(this._destroy$),
+        filter((event: KeyboardEvent) => {
+          return event.key === 'Enter';
+        }),
+      )
+      .subscribe(() => {
+        this._parseInput();
+      });
+
+    fromEvent(this._el.nativeElement, 'blur')
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._parseInput();
+      });
+
+    fromEvent(this._el.nativeElement, 'focus')
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._el.nativeElement.select();
+      });
+
   }
 
   public writeValue(value: any) {
@@ -105,8 +125,8 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
       return this._change(null);
     }
 
-    if (this.inputUnit && parseFloat(model) !== NaN && parseFloat(model) == model) {
-      model = '0' + model + this.inputUnit.charAt(0);
+    if (this.inputUnit && parseFloat(model) !== NaN) {
+      model = parseFloat(model) + this.inputUnit.charAt(0);
     }
 
     try {
@@ -122,11 +142,14 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
       this._change(Math.round(model));
 
-    } catch (e) {
-      //
-    }
+    } catch (e) {}
 
     this._format();
+  }
+
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private _change(value) {
