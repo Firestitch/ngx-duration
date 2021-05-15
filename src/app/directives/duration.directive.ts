@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
 import { fromEvent, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { delay, filter, takeUntil, tap } from 'rxjs/operators';
 
 import { parse } from '../helpers/parse';
 
@@ -62,10 +62,13 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
     fromEvent(this._el.nativeElement, 'keydown')
       .pipe(
-        takeUntil(this._destroy$),
+        tap(() => {
+          this._onTouched();
+        }),
         filter((event: KeyboardEvent) => {
           return event.key === 'Enter';
         }),
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
         this._parseInput();
@@ -81,6 +84,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
     fromEvent(this._el.nativeElement, 'focus')
       .pipe(
+        delay(50),
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
