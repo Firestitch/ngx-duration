@@ -1,6 +1,7 @@
 import { SECONDS } from '@firestitch/date';
+import { DurationUnit } from '../types/duration-unit';
 
-export function parse(value: string) {
+export function parse(value: string, inputUnit: DurationUnit) {
 
   if (!value) {
     return 0;
@@ -8,25 +9,56 @@ export function parse(value: string) {
 
   let seconds = 0;
 
-  value.split(' ').forEach((chunk) => {
+  value
+    .split(' ')
+    .forEach((chunk) => {
+      const matches = chunk.match(/^(\d*\.?\d*)([YyMdhms])?$/);
+      let modifier = matches && matches[2];
 
-    const matches = chunk.match(/^(\d*\.?\d*)([YMdhms])$/);
+      if (!modifier) {
+        switch (inputUnit) {
+          case 'seconds': {
+            modifier = 's';
+          } break;
 
-    if (!matches) {
-      throw 'Invalid duration format';
-    }
+          case 'minutes': {
+            modifier = 'm';
+          } break;
 
-    const factor = {
-      Y: SECONDS.YEAR,
-      M: SECONDS.MONTH,
-      d: SECONDS.DAY,
-      h: SECONDS.HOUR,
-      m: SECONDS.MINUTE,
-      s: 1
-    }[matches[2]];
+          case 'hours': {
+            modifier = 'h';
+          } break;
 
-    seconds += (<any>matches[1]) * factor;
-  });
+          case 'days': {
+            modifier = 'd';
+          } break;
+
+          case 'months': {
+            modifier = 'M';
+          } break;
+
+          case 'years': {
+            modifier = 'Y';
+          } break;
+
+          default: {
+            throw 'Invalid duration format';
+          }
+        }
+      }
+
+      const factor = {
+        Y: SECONDS.YEAR,
+        y: SECONDS.YEAR,
+        M: SECONDS.MONTH,
+        d: SECONDS.DAY,
+        h: SECONDS.HOUR,
+        m: SECONDS.MINUTE,
+        s: 1
+      }[modifier];
+
+      seconds += (<any>matches[1]) * factor;
+    });
 
   return seconds;
 }

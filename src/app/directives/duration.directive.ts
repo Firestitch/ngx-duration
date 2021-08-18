@@ -6,6 +6,8 @@ import { fromEvent, Subject } from 'rxjs';
 import { delay, filter, takeUntil, tap } from 'rxjs/operators';
 
 import { parse } from '../helpers/parse';
+import { cleanupInput } from '../helpers/cleanup-input';
+import { DurationUnit } from '../types/duration-unit';
 
 @Directive({
   selector: '[fsDuration]',
@@ -17,8 +19,8 @@ import { parse } from '../helpers/parse';
 })
 export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
 
-  @Input() unit: 'seconds' | 'minutes' | 'hours' = 'minutes';
-  @Input() inputUnit: 'seconds' | 'minutes' | 'hours' = 'hours';
+  @Input() unit: DurationUnit = 'minutes';
+  @Input() inputUnit: DurationUnit = 'hours';
   @Input() suffix = false;
   @Input() seconds = false;
   @Input() minutes = false;
@@ -123,28 +125,22 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   private _parseInput() {
 
-    let model = this._el.nativeElement.value;
+    let model = cleanupInput(this._el.nativeElement.value);
 
     if (!model.length) {
       return this._change(null);
     }
 
-    if (this.inputUnit && !isNaN(parseFloat(model))) {
-      model = parseFloat(model) + this.inputUnit.charAt(0);
-    }
-
     try {
+      let result = parse(model, this.inputUnit);
 
-      if (!Number(model)) {
-        model = parse(model);
-        if (this.unit === 'minutes') {
-          model = model / 60;
-        } else if (this.unit === 'hours') {
-          model = model / 60 / 60;
-        }
+      if (this.unit === 'minutes') {
+        result = result / 60;
+      } else if (this.unit === 'hours') {
+        result = result / 60 / 60;
       }
 
-      this._change(Math.round(model));
+      this._change(Math.round(result));
 
     } catch (e) {}
 
