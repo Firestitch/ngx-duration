@@ -129,7 +129,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
       return this._change(null);
     }
 
-    if (this.inputUnit && parseFloat(model) !== NaN) {
+    if (this.inputUnit && !isNaN(parseFloat(model))) {
       model = parseFloat(model) + this.inputUnit.charAt(0);
     }
 
