@@ -1,7 +1,7 @@
 import { SECONDS } from '@firestitch/date';
 import { DurationUnit } from '../types/duration-unit';
 
-export function parse(value: string, inputUnit: DurationUnit) {
+export function parse(value: string, inputUnit: string) {
 
   if (!value) {
     return 0;
