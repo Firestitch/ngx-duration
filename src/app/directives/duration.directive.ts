@@ -1,9 +1,20 @@
-import { Directive, Input, ElementRef, OnInit, AfterViewInit, forwardRef, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import {
+  Directive,
+  Input,
+  ElementRef,
+  OnInit,
+  AfterViewInit,
+  forwardRef,
+  OnChanges,
+  SimpleChange,
+  OnDestroy,
+  NgZone
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
 import { fromEvent, Subject } from 'rxjs';
-import { delay, filter, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, takeUntil, tap } from 'rxjs/operators';
 
 import { parse } from '../helpers/parse';
 import { cleanupInput } from '../helpers/cleanup-input';
@@ -36,7 +47,10 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   private _model;
 
-  constructor(private _el: ElementRef) {}
+  constructor(
+    private _el: ElementRef,
+    private _ngZone: NgZone,
+  ) {}
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn
@@ -62,37 +76,9 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
       this.hours = true;
     }
 
-    fromEvent(this._el.nativeElement, 'keydown')
-      .pipe(
-        tap(() => {
-          this._onTouched();
-        }),
-        filter((event: KeyboardEvent) => {
-          return event.key === 'Enter';
-        }),
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this._parseInput();
-      });
-
-    fromEvent(this._el.nativeElement, 'blur')
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this._parseInput();
-      });
-
-    fromEvent(this._el.nativeElement, 'focus')
-      .pipe(
-        delay(50),
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this._el.nativeElement.select();
-      });
-
+    this._listenKeyDown();
+    this._listenFocus();
+    this._listenBlur();
   }
 
   public writeValue(value: any) {
@@ -125,7 +111,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   private _parseInput() {
 
-    let model = cleanupInput(this._el.nativeElement.value);
+    const model = cleanupInput(this._el.nativeElement.value);
 
     if (!model.length) {
       return this._change(null);
@@ -143,8 +129,6 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
       this._change(Math.round(result));
 
     } catch (e) {}
-
-    this._format();
   }
 
   public ngOnDestroy(): void {
@@ -155,5 +139,47 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   private _change(value) {
     this._model = value;
     this._onChange(value);
+  }
+
+
+  private _listenKeyDown(): void {
+    this._ngZone.runOutsideAngular(() => {
+      fromEvent(this._el.nativeElement, 'keydown')
+        .pipe(
+          debounceTime(200),
+          tap(() => {
+            this._onTouched();
+          }),
+          takeUntil(this._destroy$),
+        )
+        .subscribe(() => {
+          this._ngZone.run(() => {
+            this._parseInput();
+          });
+        });
+    })
+  }
+
+  private _listenFocus(): void {
+    fromEvent(this._el.nativeElement, 'focus')
+      .pipe(
+        delay(50),
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._el.nativeElement.select();
+      });
+  }
+
+  private _listenBlur(): void {
+    fromEvent(this._el.nativeElement, 'blur')
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this._parseInput();
+
+        this._format();
+      });
   }
 }

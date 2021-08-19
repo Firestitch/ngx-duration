@@ -13,7 +13,7 @@
  */
 
 export function cleanupInput(str: string): string {
-  str = str
+  const parts = str
     .trim()
     /**
      * Cleanup step
@@ -27,11 +27,14 @@ export function cleanupInput(str: string): string {
      * For cases like "1h30m" or "1h some text between 30m".
      * Just extract target time values
      */
-    .match(/(\d*\.?\d)+[ydhms]/gi)
+    .match(/(\d*\.?\d)+[ydhms]/gi);
+
+  if (parts) {
     /**
      * Join extractions into expected string
      */
-    .join(' ')
+    return parts.join(' ');
+  }
 
-  return str;
+  return '';
 }
