@@ -111,10 +111,16 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
 
   private _parseInput() {
 
-    const model = cleanupInput(this._el.nativeElement.value);
+    let model = cleanupInput(this._el.nativeElement.value);
 
     if (!model.length) {
-      return this._change(null);
+      const parsedValue = parseFloat(this._el.nativeElement.value);
+
+      if (isNaN(parsedValue)) {
+        return this._change(null);
+      }
+
+      model = parsedValue.toString();
     }
 
     try {
