@@ -20,7 +20,7 @@ export function cleanupInput(str: string): string {
      *
      * Here we are trying to fix most popular user mistakes i.e.: 1 h 30 m, 1.3 h and etc.
      */
-    .replace(/(?<=(\d*\.?\d*))\s+(?=[ydhms])/gi, '')
+    .replace(/\s/g, '')
     /**
      * Extract
      *
