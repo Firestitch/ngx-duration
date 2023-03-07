@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'duration-example',
-  templateUrl: 'duration-example.component.html'
+  templateUrl: './duration-example.component.html'
 })
 export class DurationExampleComponent {
 
