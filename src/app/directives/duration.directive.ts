@@ -130,6 +130,8 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
         result = result / 60;
       } else if (this.unit === 'hours') {
         result = result / 60 / 60;
+      } else if (this.unit === 'days') {
+        result = result / 60 / 60 / 24;
       }
 
       this._change(Math.round(result));

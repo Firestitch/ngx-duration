@@ -1,1 +1,1 @@
-export type DurationUnit = 'seconds' | 'minutes' | 'hours';
+export type DurationUnit = 'seconds' | 'minutes' | 'hours' | 'days';

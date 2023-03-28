@@ -29,7 +29,8 @@ export class ConfigurableDurationExampleComponent {
   public units = {
     seconds: 'Seconds',
     minutes: 'Minutes',
-    hours: 'Hours'
+    hours: 'Hours',
+    days: 'Days'
   }
 
   constructor() {}
