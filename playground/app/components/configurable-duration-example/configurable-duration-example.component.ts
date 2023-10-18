@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'configurable-duration-example',
   styleUrls: ['./configurable-duration-example.component.scss'],
-  templateUrl: 'configurable-duration-example.component.html'
+  templateUrl: 'configurable-duration-example.component.html',
 })
 export class ConfigurableDurationExampleComponent {
 
