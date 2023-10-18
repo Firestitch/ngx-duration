@@ -49,6 +49,7 @@
     "@firestitch/checkboxgroup": "^12.0.0",
     "@firestitch/clear": "^12.0.0",
     "@firestitch/common": "^12.5.2",
+    "@firestitch/core": "^12.0.3",
     "@firestitch/component-tools": "^12.0.18",
     "@firestitch/country": "^12.0.0",
     "@firestitch/date": "^12.4.3",
