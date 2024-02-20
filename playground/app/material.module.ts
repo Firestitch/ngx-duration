@@ -1,4 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import {NgModule} from '@angular/core';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -67,7 +66,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
       MatToolbarModule,
       MatTooltipModule,
       MatFormFieldModule,
-      FlexLayoutModule,
     ]
   })
   export class AppMaterialModule {}
