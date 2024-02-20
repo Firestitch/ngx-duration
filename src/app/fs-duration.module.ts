@@ -5,19 +5,16 @@ import { FsDurationDirective } from './directives/duration.directive';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    FsDurationDirective
-  ],
-  entryComponents: [
-  ],
-  declarations: [
-    FsDurationDirective
-  ],
-  providers: [
-  ],
+    imports: [
+        CommonModule,
+    ],
+    exports: [
+        FsDurationDirective
+    ],
+    declarations: [
+        FsDurationDirective
+    ],
+    providers: []
 })
 export class FsDurationModule {
   /*static forRoot(): ModuleWithProviders {

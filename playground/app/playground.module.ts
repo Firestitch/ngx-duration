@@ -26,35 +26,32 @@ import { ConfigurableDurationExampleComponent } from './components/configurable-
 
 
 @NgModule({
-  bootstrap: [ AppComponent ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    AppMaterialModule,
-    FsDurationModule,
-    FsPromptModule,
-    FsAutocompleteModule,
-    FsFormModule.forRoot(),
-    FsExampleModule.forRoot(),
-    FsMessageModule.forRoot(),
-    FsSkeletonModule,
-    FsDialogModule.forRoot(),
-    FsDatePickerModule.forRoot(),
-    FsCheckboxGroupModule,
-    FsRadioGroupModule,
-    FsApiModule,
-    FsAutocompleteChipsModule.forRoot(),
-  ],
-  entryComponents: [
-  ],
-  declarations: [
-    AppComponent,
-    DurationExampleComponent,
-    ConfigurableDurationExampleComponent
-  ],
-  providers: [
-  ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        AppMaterialModule,
+        FsDurationModule,
+        FsPromptModule,
+        FsAutocompleteModule,
+        FsFormModule.forRoot(),
+        FsExampleModule.forRoot(),
+        FsMessageModule.forRoot(),
+        FsSkeletonModule,
+        FsDialogModule.forRoot(),
+        FsDatePickerModule.forRoot(),
+        FsCheckboxGroupModule,
+        FsRadioGroupModule,
+        FsApiModule,
+        FsAutocompleteChipsModule.forRoot(),
+    ],
+    declarations: [
+        AppComponent,
+        DurationExampleComponent,
+        ConfigurableDurationExampleComponent
+    ],
+    providers: []
 })
 export class PlaygroundModule {
 }
