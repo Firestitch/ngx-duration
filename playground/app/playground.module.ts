@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 
-import { FsExampleModule } from '@firestitch/example';
-import { FsDurationModule } from '@firestitch/duration';
-import { FsMessageModule } from '@firestitch/message';
-import { FsFormModule } from '@firestitch/form';
-import { FsPromptModule } from '@firestitch/prompt';
+import { FsApiModule } from '@firestitch/api';
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { FsCheckboxGroupModule } from '@firestitch/checkboxgroup';
 import { FsDatePickerModule } from '@firestitch/datepicker';
 import { FsDialogModule } from '@firestitch/dialog';
-
-import { FsCheckboxGroupModule } from '@firestitch/checkboxgroup';
-import { FsSkeletonModule } from '@firestitch/skeleton';
+import { FsDurationModule } from '@firestitch/duration';
+import { FsExampleModule } from '@firestitch/example';
+import { FsFormModule } from '@firestitch/form';
+import { FsMessageModule } from '@firestitch/message';
+import { FsPromptModule } from '@firestitch/prompt';
 import { FsRadioGroupModule } from '@firestitch/radiogroup';
-import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
-import { FsApiModule } from '@firestitch/api';
+import { FsSkeletonModule } from '@firestitch/skeleton';
 
-import { AppMaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { DurationExampleComponent } from './components/duration-example/duration-example.component';
 import { ConfigurableDurationExampleComponent } from './components/configurable-duration-example/configurable-duration-example.component';
+import { DurationExampleComponent } from './components/duration-example/duration-example.component';
+import { AppMaterialModule } from './material.module';
 
 
 @NgModule({
@@ -36,6 +36,7 @@ import { ConfigurableDurationExampleComponent } from './components/configurable-
     FsPromptModule,
     FsAutocompleteModule,
     FsFormModule.forRoot(),
+    RouterModule.forRoot([]),
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSkeletonModule,
@@ -49,7 +50,7 @@ import { ConfigurableDurationExampleComponent } from './components/configurable-
   declarations: [
     AppComponent,
     DurationExampleComponent,
-    ConfigurableDurationExampleComponent
+    ConfigurableDurationExampleComponent,
   ],
 })
 export class PlaygroundModule {

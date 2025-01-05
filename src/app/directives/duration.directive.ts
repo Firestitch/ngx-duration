@@ -1,49 +1,51 @@
 import {
-  Directive,
-  Input,
-  ElementRef,
-  OnInit,
   AfterViewInit,
+  Directive,
+  ElementRef,
   forwardRef,
+  Input,
+  NgZone,
   OnChanges,
-  SimpleChange,
   OnDestroy,
-  NgZone
+  OnInit,
+  SimpleChange,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
+
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, delay, takeUntil, tap } from 'rxjs/operators';
 
-import { parse } from '../helpers/parse';
 import { cleanupInput } from '../helpers/cleanup-input';
+import { parse } from '../helpers/parse';
 import { DurationUnit } from '../types/duration-unit';
 
 @Directive({
   selector: '[fsDuration]',
-  providers: [ {
+  providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsDurationDirective),
-    multi: true
-  }]
+    multi: true,
+  }],
 })
-export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
+export class FsDurationDirective 
+implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
 
-  @Input() unit: DurationUnit = 'minutes';
-  @Input() inputUnit: DurationUnit = 'hours';
-  @Input() suffix = false;
-  @Input() seconds = false;
-  @Input() minutes = false;
-  @Input() hours = false;
-  @Input() days = false;
-  @Input() months = false;
-  @Input() years = false;
+  @Input() public unit: DurationUnit = 'minutes';
+  @Input() public inputUnit: DurationUnit = 'hours';
+  @Input() public suffix = false;
+  @Input() public seconds = false;
+  @Input() public minutes = false;
+  @Input() public hours = false;
+  @Input() public days = false;
+  @Input() public months = false;
+  @Input() public years = false;
+
+  public _onTouched: () => void;
+  public _onChange: (value: any) => void;
 
   private _destroy$ = new Subject();
-
-  public _onTouched = () => {};
-  public _onChange = (value: any) => {};
 
   private _model;
 
@@ -53,15 +55,15 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
   ) {}
 
   public registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn
+    this._onChange = fn;
   }
 
   public registerOnTouched(fn: () => any): void {
-    this._onTouched = fn
+    this._onTouched = fn;
   }
 
   public ngOnChanges(changes): void {
-    const changed = Object.keys(changes).map(key => changes[key]).some((change: SimpleChange) => {
+    const changed = Object.keys(changes).map((key) => changes[key]).some((change: SimpleChange) => {
       return !change.firstChange;
     });
 
@@ -102,7 +104,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
         hours: this.hours,
         days: this.days,
         months: this.months,
-        years: this.years
+        years: this.years,
       });
     }
 
@@ -126,12 +128,23 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
     try {
       let result = parse(model, this.inputUnit);
 
-      if (this.unit === 'minutes') {
-        result = result / 60;
-      } else if (this.unit === 'hours') {
-        result = result / 60 / 60;
-      } else if (this.unit === 'days') {
-        result = result / 60 / 60 / 24;
+      switch (this.unit) {
+        case 'minutes': {
+          result = result / 60;
+      
+          break;
+        }
+        case 'hours': {
+          result = result / 60 / 60;
+      
+          break;
+        }
+        case 'days': {
+          result = result / 60 / 60 / 24;
+      
+          break;
+        }
+      // No default
       }
 
       this._change(Math.round(result));
@@ -149,7 +162,6 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
     this._onChange(value);
   }
 
-
   private _listenKeyDown(): void {
     this._ngZone.runOutsideAngular(() => {
       fromEvent(this._el.nativeElement, 'keydown')
@@ -165,7 +177,7 @@ export class FsDurationDirective implements OnInit, AfterViewInit, ControlValueA
             this._parseInput();
           });
         });
-    })
+    });
   }
 
   private _listenFocus(): void {
