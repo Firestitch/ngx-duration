@@ -3,12 +3,30 @@ import { Component, ViewChild } from '@angular/core';
 import { FsDurationDirective } from '@firestitch/duration';
 
 import { of } from 'rxjs';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { FsDurationDirective as FsDurationDirective_1 } from '../../../../src/app/directives/duration.directive';
+import { FsFormModule } from '@firestitch/form';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 
 
 @Component({
-  selector: 'configurable-duration-example',
-  styleUrls: ['./configurable-duration-example.component.scss'],
-  templateUrl: 'configurable-duration-example.component.html',
+    selector: 'configurable-duration-example',
+    styleUrls: ['./configurable-duration-example.component.scss'],
+    templateUrl: 'configurable-duration-example.component.html',
+    standalone: true,
+    imports: [
+        MatFormField,
+        MatInput,
+        FormsModule,
+        FsDurationDirective_1,
+        FsFormModule,
+        MatCheckbox,
+        MatRadioGroup,
+        MatRadioButton,
+    ],
 })
 export class ConfigurableDurationExampleComponent {
 

@@ -1,8 +1,21 @@
 import { Component } from '@angular/core';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { FsDurationDirective } from '../../../../src/app/directives/duration.directive';
+import { FsFormModule } from '@firestitch/form';
 
 @Component({
-  selector: 'duration-example',
-  templateUrl: './duration-example.component.html',
+    selector: 'duration-example',
+    templateUrl: './duration-example.component.html',
+    standalone: true,
+    imports: [
+        MatFormField,
+        MatInput,
+        FormsModule,
+        FsDurationDirective,
+        FsFormModule,
+    ],
 })
 export class DurationExampleComponent {
 

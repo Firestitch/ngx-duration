@@ -22,12 +22,13 @@ import { parse } from '../helpers/parse';
 import { DurationUnit } from '../types/duration-unit';
 
 @Directive({
-  selector: '[fsDuration]',
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => FsDurationDirective),
-    multi: true,
-  }],
+    selector: '[fsDuration]',
+    providers: [{
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FsDurationDirective),
+            multi: true,
+        }],
+    standalone: true,
 })
 export class FsDurationDirective 
 implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
