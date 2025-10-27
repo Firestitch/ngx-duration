@@ -1,15 +1,4 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  forwardRef,
-  Input,
-  NgZone,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChange,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, forwardRef, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChange, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { duration } from '@firestitch/date';
@@ -32,6 +21,9 @@ import { DurationUnit } from '../types/duration-unit';
 })
 export class FsDurationDirective 
 implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
+  private _el = inject(ElementRef);
+  private _ngZone = inject(NgZone);
+
 
   @Input() public unit: DurationUnit = 'minutes';
   @Input() public inputUnit: DurationUnit = 'hours';
@@ -49,11 +41,6 @@ implements OnInit, AfterViewInit, ControlValueAccessor, OnChanges, OnDestroy {
   private _destroy$ = new Subject();
 
   private _model;
-
-  constructor(
-    private _el: ElementRef,
-    private _ngZone: NgZone,
-  ) {}
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn;
